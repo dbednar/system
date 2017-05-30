@@ -1,0 +1,33 @@
+{% extends "::base.html.twig"  %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+<div class="col-lg-7">
+</div>
+    <div class="col-lg-3">
+        <div class="panel">
+                <div class="panel-heading">
+                        Documents
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                                <li><a href="#">Care Inspectorate Report</a></li>
+                                <li><a href="#">Fire Regulations</a></li>
+                            </ul>
+                    </div>
+            </div>
+    </div>
+  
+</div>
+     <aside>
+	      <div id="recent-activity">
+		      <h5>Recent Activity</h5>
+		  </div>
+	  </aside>
+{% endblock %}
+{% block javascript %}
+    
+    {{parent()}}
+    
+{% endblock %}    

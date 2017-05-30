@@ -1,0 +1,17 @@
+parameters:
+    database_driver: pdo_mysql
+    database_host: localhost
+    database_port: 3306
+    database_name: system_test
+    database_user: root
+    database_password: 123
+    mailer_transport: sendmail
+    mailer_host: null
+    mailer_user: null
+    mailer_password: null
+    mailer_port: null
+    mailer_encryption: null
+    mailer_authmode: null
+    locale: en
+    secret: 'g=kx1TOB3#LjR{6''[y([HR{6_4:4O>t0V%t6bw9NB*[3qfWr1/}V64B.ryvhK9R'
+    dev_address: office@dot-best.pl

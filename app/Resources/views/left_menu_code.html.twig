@@ -1,0 +1,60 @@
+ <li class="sub-menu">
+                                {% if item['path'] is not empty %}
+                                    <a href="{{path(item['path'])}}" {{ app.request.get('_route') == item['path']? "class='active'":"class=" }} >
+
+                                    {% else %}
+                                        {% if item['more'] is defined %}
+                                            {% set dane = '' %}
+                                            {% for data in item["more"] %}
+                                              {% if item['array'] is defined  %}
+                                                  {% for info in data %}
+                                                     
+                                                      {% if app.request.get('_route') == info['path']%}
+
+                                                    {% set dane = 'bar' %}
+
+                                                {% endif %}    
+                                                      
+                                                  {% endfor %}
+                                              {% else %}    
+                                                {% if app.request.get('_route') == data['path']%}
+
+                                                    {% set dane = 'bar' %}
+
+                                                {% endif %}    
+                                              {% endif %}  
+                                            {% endfor %}  
+                                            {% if dane == 'bar'%}
+                                                <a class="active"> 
+                                                {% else %}
+                                                    {{dane}}
+                                                    <a > 
+                                                    {% endif %}
+                                        {% endif %} 
+
+                                 {% endif%}
+                                             
+                                            <i class="fa {{item['fa']}}"></i>
+                                            <span>{{item['name']}}</span>
+                                           
+                                        </a>
+
+                                        {% if item["more"] is defined %}
+                                            
+                                            <ul  class="sub">
+                                             
+                                                {% for data in item["more"] %} 
+                                                     {% if item['array'] is defined  %}
+                                                         {% for info in data%}
+                                                             {% if info['variable'] is defined %}
+                                                        <li {{ app.request.get('_route_params').names is defined and app.request.get('_route_params').names == info['variable']? "class='active'":"class='addHouse'" }}><a href="{{path(info['path'],{ 'names':info['variable'] })}}" >{{info["name"]}}</a></li>
+                                                            {% endif %}
+                                                         
+                                                         {% endfor %}
+                                                     {% else %}    
+                                                        <li {{ app.request.get('_route') == data['path']? "class='active'":"" }}><a href="{{path(data['path'])}}" >{{data["name"]}}</a></li>
+                                                    {% endif %}    
+                                                {% endfor %}    
+                                            </ul>
+
+                                        {% endif %}

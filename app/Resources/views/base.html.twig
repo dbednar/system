@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Mosaddek">
+    <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <title>{% block title %} {% endblock %} | System</title>
+    {% block css %}
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/bootstrap-reset.css" rel="stylesheet" />
+    <!--external css-->
+    <link href="/css/font-awesome/font-awesome.css" rel="stylesheet" />
+    <link href="/css/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="/css/owl.carousel.css" type="text/css" rel="stylesheet" />
+    <link href="/css/own.css" type="text/css" rel="stylesheet" />
+    <!--right slidebar-->
+    <link href="/css/slidebars.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/css/style-responsive.css" rel="stylesheet" />
+
+    {% endblock %}
+    {% block start_jq %}
+        <script src="/js/jquery.js" type="text/javascript" ></script>
+        <script src="/js/bootstrap.min.js" type="text/javascript" ></script>
+        
+    {% endblock %}    
+  </head>
+
+  <body>
+
+  <section id="container" >
+      <!--header start-->
+      <header class="header green-bg">
+              <div class="sidebar-toggle-box">
+                  <i class="fa fa-bars"></i>
+              </div>
+            <!--logo start-->
+            <a href="{{path('dashboard')}}" class="logo">Sys</a>
+            <!--logo end-->
+            <div class="nav notify-row" id="top_menu">
+                <!--  notification start -->
+       
+
+                </ul>
+                <!--  notification end -->
+            </div>
+            <div class="top-nav ">
+                <!--search & user info start-->
+                <ul class="nav pull-right top-menu">
+                    <!--<li>
+                        <input type="text" class="form-control search" placeholder="Search">
+                    </li>-->
+                    <!-- user login dropdown start-->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#" id="blockAvatar">
+                            {% block avatar %}
+                                {% if  app.user.avatar is not empty  %}
+                                    <img style="width:29px; height:auto;" alt="" src="/avatar/{{app.user.avatar}}" > 
+                                {% else %}    
+                                    <img style="width:29px; height:auto;" alt="" src="/avatar/avatar.jpg" > 
+                                {% endif %}    
+    <span class="username"></span>
+    <b class="caret"></b>
+                            {% endblock %}  
+                        </a>    
+                        <ul class="dropdown-menu extended logout">
+                            <div class="log-arrow-up"></div>
+                            <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
+                            <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
+                            <li><a href="#"><i class="fa fa-bell-o"></i> Notification</a></li>
+                            <li><a href="{{path('logout')}}"><i class="fa fa-key"></i> Log Out</a></li>
+                        </ul>
+                    </li>
+                    <li class="sb-toggle-right">
+                        <i class="fa  fa-align-right"></i>
+                    </li>
+                    <!-- user login dropdown end -->
+                </ul>
+                <!--search & user info end-->
+            </div>
+        </header>
+      <!--header end-->
+      <!--sidebar start-->
+      <aside>
+          <div id="sidebar"  class="nav-collapse ">
+             <!-- Sidebar menu start -->
+            {% include "::left_menu.html.twig" %}
+         
+           {# {{ knp_menu_render('AleUserBundle:Builder:mainMenu') }}#}
+    
+
+            </div> 
+      </aside>
+      <!--sidebar end-->
+      <!--main content start-->
+      
+      <section id="main-content">
+          <section class="wrapper">
+              {% block content %}
+                  
+                  
+              {% endblock %}
+          </section>
+      </section>
+           
+      <!--main content end-->
+
+      <!-- Right Slidebar start -->
+      <div class="sb-slidebar sb-right sb-style-overlay" id='onlineUsers'>
+          
+      </div>
+      <!-- Right Slidebar end -->
+      {% include "::Modal/errorModal.html.twig" %}
+
+  </section>
+    {% block javascript %}
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script class="include" type="text/javascript" src="/js/jquery.dcjqaccordion.2.7.js"></script>
+    
+    
+    <script src="/js/jquery.scrollTo.min.js"></script>
+    
+    
+    <script src="/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="/js/jquery.sparkline.js" type="text/javascript"></script>
+   {#<script src="/js/jquery.easy-pie-chart.js"></script>
+    
+    <script src="/js/jquery.customSelect.min.js" ></script>
+    <script src="/js/respond.min.js" ></script>#}
+
+    <!--right slidebar-->
+    <script src="/js/slidebars.min.js"></script>
+
+    <!--common script for all pages-->
+    <script src="/js/owl.carousel.js" ></script>
+    <script src="/js/common-scripts.js"></script>
+
+    <!--script for this page-->
+    <script src="/js/sparkline-chart.js"></script>
+    {#<script src="/js/easy-pie-chart.js"></script>
+    <script src="/js/count.js"></script>#}
+   <script src='/js/onlineUsers.js'></script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    
+  {% endblock %}
+  </body>
+</html>
+

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="System" default="deploy">
+    <property file="${basedir}/build/build.properties"/>
+
+    <target name="deploy" depends="perms, property-check, config, vendors, cacheClear, cacheWarmup, perms, perms, cacheClear, cacheWarmup">
+        <echo message="System"/>
+    </target>
+
+
+
+    <target name="property-check">
+        <fail message="Checking for property: app.logDir" unless="app.logDir" />
+        <fail message="Checking for property: app.cacheDir" unless="app.cacheDir" />
+        <fail message="Checking for property: app.env" unless="app.env" />
+        <fail message="Checking for property: php.exec" unless="php.exec" />
+        <fail message="Checking for property: db.params.host" unless="db.params.host" />
+        <fail message="Checking for property: db.params.user" unless="db.params.user" />
+        <fail message="Checking for property: db.params.pass" unless="db.params.pass" />
+        <fail message="Checking for property: db.params.name" unless="db.params.name" />
+        <fail message="Checking for property: db.adapter" unless="db.adapter" />
+        <fail message="Checking for property: admin.username" unless="admin.username" />
+        <fail message="Checking for property: admin.email" unless="admin.email" />
+        <fail message="Checking for property: admin.password" unless="admin.password" />
+        <fail message="Checking for property: mailer.transport" unless="mailer.transport" />
+        <fail message="Checking for property: mailer.host" unless="mailer.host" />
+        <fail message="Checking for property: mailer.user" unless="mailer.user" />
+        <fail message="Checking for property: mailer.password" unless="mailer.password" />
+        <fail message="Checking for property: mailer.port" unless="mailer.port" />
+        <fail message="Checking for property: mailer.encryption" unless="mailer.encryption" />
+        <fail message="Checking for property: mailer.authmode" unless="mailer.authmode" />
+        <fail message="Checking for property: secret.token" unless="secret.token" />
+        <fail message="Checking for property: dev.address" unless="dev.address" />
+        <fail message="Checking for property: admin.address" unless="admin.address" />
+        <fail message="Checking for property: chown" unless="chown" />
+        <fail message="Checking for property: app.emergency_email" unless="app.emergency_email" />
+        <fail message="Checking for property: app.emergency_mail_subject" unless="app.emergency_mail_subject" />
+        <fail message="Checking for property: app.emergency_mail_level" unless="app.emergency_mail_level" />
+        <fail message="Checking for property: composer.vendor_dir" unless="composer.vendor_dir" />
+        <fail message="Checking for property: autoload.vendor_dir" unless="autoload.vendor_dir" />
+        <fail message="Checking for property: api.public_key" unless="api.public_key" />
+        <fail message="Checking for property: api.secret_key" unless="api.secret_key" />
+        <fail message="Checking for property: api.public_key_unittests" unless="api.public_key_unittests" />
+        <fail message="Checking for property: api.secret_key_unittests" unless="api.secret_key_unittests" />
+        <echo message="Passed the property check!" />
+    </target>
+
+    <target name="config">
+        <copy file="./build/composer.json" tofile="./composer.json" overwrite="true">
+            <filterchain>
+                <expandproperties />
+            </filterchain>
+        </copy>
+        <copy todir="./app" overwrite="true">
+            <fileset dir="./build/app" />
+            <filterchain>
+                <expandproperties />
+            </filterchain>
+        </copy>
+        <copy todir="./web" overwrite="true">
+            <fileset dir="./build/web" />
+            <filterchain>
+                <expandproperties />
+            </filterchain>
+        </copy>
+    </target>
+
+    <target name="vendors" description="Installing Symfony2 vendors">
+        <exec executable="rm">
+            <arg value="-rf" />
+            <arg value="${basedir}/composer.lock" />
+        </exec>
+        <exec executable="${php.exec}" failonerror="false">
+            <arg value="composer.phar" />
+            <arg value="install" />
+        </exec>
+    </target>
+
+ 
+
+    <target name="dbCreate" description="Create db">
+        <exec executable="${php.exec}" failonerror="true">
+            <arg value="${basedir}/bin/console" />
+            <arg value="doctrine:schema:create" />
+            <arg value="--env=${app.env}" />
+        </exec>
+    </target>
+
+    <target name="user" description="create admin user">
+        <exec executable="${php.exec}" failonerror="true">
+            <arg value="${basedir}/bin/console" />
+            <arg value="fos:user:create" />
+            <arg value="--env=${app.env}" />
+            <arg value="${admin.username}" />
+            <arg value="${admin.email}" />
+            <arg value="${admin.password}" />
+        </exec>
+        <exec executable="${php.exec}" failonerror="true">
+            <arg value="${basedir}/bin/console" />
+            <arg value="fos:user:activate" />
+            <arg value="--env=${app.env}" />
+            <arg value="${admin.username}" />
+        </exec>
+        <exec executable="${php.exec}" failonerror="true">
+            <arg value="${basedir}/bin/console" />
+            <arg value="fos:user:promote" />
+            <arg value="--env=${app.env}" />
+            <arg value="${admin.username}" />
+            <arg value="ROLE_MASTER" />
+        </exec>
+
+    </target>
+
+
+
+
+    <target name="cacheClear" description="Cleanup cache">
+        <exec executable="rm" failonerror="true">
+            <arg value="${app.cacheDir}/*" />
+            <arg value="-rf" />
+        </exec>
+    </target>
+
+
+    <target name="createCacheDirectory" description="Directory for cache">
+        <exec executable="mkdir" failonerror="true">
+            <arg value="${app.cacheDir}" />
+            <arg value="-p" />
+        </exec>
+    </target>
+
+    <target name="createLogDirectory" description="Directory for logs">
+        <exec executable="mkdir" failonerror="true">
+            <arg value="${app.logDir}/archive" />
+            <arg value="-p" />
+        </exec>
+    </target>
+
+    <target name="perms" description="Permissions">
+        <exec executable="sudo" failonerror="true">
+            <arg value="chmod" />
+            <arg value="775" />
+            <arg value="${app.logDir}" />
+            <arg value="-R" />
+        </exec>
+        <exec executable="sudo" failonerror="true">
+            <arg value="chmod" />
+            <arg value="775" />
+            <arg value="${app.cacheDir}" />
+            <arg value="-R" />
+        </exec>
+
+ 
+        <exec executable="sudo" failonerror="true">
+            <arg value="chown" />
+            <arg value="${chown}" />
+            <arg value="${app.cacheDir}" />
+            <arg value="-R" />
+        </exec>
+        <exec executable="sudo" failonerror="true">
+            <arg value="chown" />
+            <arg value="${chown}" />
+            <arg value="${app.logDir}" />
+            <arg value="-R" />
+        </exec>
+        <exec executable="sudo" failonerror="true">
+            <arg value="chown" />
+            <arg value="${chown}" />
+            <arg value="${basedir}/web/img" />
+            <arg value="-R" />
+        </exec>
+    </target>
+
+    <target name="cacheWarmup" description="Warmup cache">
+        <exec executable="${php.exec}" failonerror="true">
+            <arg value="${basedir}/bin/console" />
+            <arg value="cache:warmup" />
+            <arg value="--env=${app.env}" />
+        </exec>
+    </target>
+
+    <target name="phpunit-all">
+        <exec executable="${php.exec}" failonerror="true">
+            <arg value="${composer.vendor_dir}/phpunit/phpunit/phpunit" />
+            <arg value="-c" />
+            <arg value="app" />
+        </exec>
+    </target>
+
+    <target name="phpunit-coverage">
+        <exec executable="${php.exec}" failonerror="true">
+            <arg value="${composer.vendor_dir}/phpunit/phpunit/phpunit" />
+            <arg value="-c" />
+            <arg value="app" />
+            <arg value="--coverage-html" />
+            <arg value="${basedir}/coverage" />
+        </exec>
+    </target>
+</project>

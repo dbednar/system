@@ -1,0 +1,35 @@
+
+
+{% set mainMenu = [
+
+                        {"path":"dashboard", "name":"Dashboard", "fa":"fa-dashboard"},
+                        {"path":"", "name":"System","role":"ROLE_ADMIN", "fa":"fa-wrench","more":[
+                            {"path":"system_user", "name":"Users" },
+                        ],},
+                    ]
+                %}  
+                    <ul class="sidebar-menu" id="nav-accordion">
+                        {% for item in mainMenu %}
+                            {% if item['only'] is defined  %}
+                                {% if app.user.staff %}
+                                   
+                                    {% include "::left_menu_code.html.twig" with item %}
+                                
+                                {% endif %}     
+                            {% elseif item['role'] is not defined %}
+                                {% include "::left_menu_code.html.twig" with item %}
+                                        
+                            {% elseif  item['role'] == "ROLE_STAFF" and is_granted('ROLE_STAFF') %} 
+                         
+                                {% include "::left_menu_code.html.twig" with item %}
+                                
+                            {% elseif  item['role'] == "ROLE_CHILD" and is_granted('ROLE_CHILD')and app.user.child   %}  
+                                {% include "::left_menu_code.html.twig" with item %}
+                            {% elseif item['role'] == "ROLE_ADMIN" and is_granted('ROLE_ADMIN') %} 
+                                 {% include "::left_menu_code.html.twig" with item %}
+                            {% endif %}  
+                                      </li>
+                        {% endfor %}   
+                                    
+                                    </ul>
+             

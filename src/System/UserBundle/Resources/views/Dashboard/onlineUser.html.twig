@@ -1,0 +1,25 @@
+<h5 class="side-title">STAFF IN TODAY</h5>
+<ul class="quick-chat-list">
+{% for user in users %}
+    <li class="online">
+        <div class="media">
+            
+     
+                {% if user.avatar is not empty %}
+                <a href="#" class="pull-left media-thumb">    <img class="media-object" alt="" src="/avatar/{{user.avatar}}" > 
+                </a>
+                
+                {% else %}
+                  <a href="#" class="pull-left media-thumb">  <img class="media-object" alt="" src="/avatar/avatar.jpg" > </a>
+                {% endif %}  
+                <div class="media-body">
+                <a href="" style="color:white;"><strong>{{user.username}}</strong></a>
+            </div>
+          
+
+         
+            
+        </div><!-- media -->
+    </li>
+{% endfor %} 
+</ul>

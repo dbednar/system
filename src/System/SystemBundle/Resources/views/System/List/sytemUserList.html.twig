@@ -1,0 +1,68 @@
+<div class="adv-table">
+   
+   <table  class="display table table-bordered table-striped dataTable" id="dynamic-table">
+        
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>User Type</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{dump(users)}}
+            {% for user in users %}
+                <tr>
+                
+                    <td>{{user.username}}</td>
+                    <td>
+                        {% for role in user.roles %}
+                        
+                            {% if role  %}
+                                <span class="label label-primary label-mini">
+                            {{role}} 
+                             </span>
+                         {% endif %}   
+                       
+           
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% if  user.enabled == 1%}
+                        <span class="label label-success label-mini"> Active </span>
+                        {% else %}
+                            
+                           <span class="label label-danger label-mini"> Notactive </span>
+                        {% endif %}    
+                    </td>    
+                    <td>
+                        {% if is_granted("ROLE_ADMIN") %}
+                        <a data-toggle="modal" href="#editUser" class="btn btn-primary btn-xs" href="#editUser"  data-username="{{user.username}}" data-id="{{user.id}}"><i class="fa fa-pencil"></i> Edit User</a>
+                        <a data-toggle="modal" href="#resetPassword" class="btn btn-warning btn-xs" data-email="{{user.email}}" data-username="{{user.username}}"><i class="fa fa-warning"></i> Reset Password</a>
+                        {% endif %}
+                    </td>
+
+                </tr>
+           {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Username</th>
+                <th>User Type</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+        
+<script type="text/javascript" src="/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/js/DT_bootstrap.js"></script>
+<script>
+$('#dynamic-table').dataTable( {
+    "iDisplayLength": 100,
+    "bSortClasses": false,           
+    "bLengthChange": false
+    } );
+</script>

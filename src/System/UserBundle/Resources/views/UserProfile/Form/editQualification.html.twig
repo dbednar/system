@@ -1,0 +1,59 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">Edit Qualifications</h4>
+        </div>
+        <div class="modal-body">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+ 
+                 {% for qualification in qualifications %}
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="qualy1">
+                        <h4 class="panel-title">
+                            <a class="open_edit" role="button" data-toggle="collapse" data-parent="#accordion" href="" aria-expanded="false" aria-controls="qualyContent">
+                                {{qualification.name}}
+                            </a>
+                        </h4>
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+            <button class="btn btn-success" type="submit"><i class="fa fa-check"></i> Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<div id="qualyContent" class="panel-collapse collapse" role="tabpanel" aria-labelledby="qualy1">
+    <div class="panel-body">
+        <div class="form-group">
+            <label for="qualyName1">Qualification Name</label>
+            <input type="text" class="form-control" id="qualyName1" placeholder="Qualification Name" value="BSc Behav Sc">
+        </div>
+        <div class="form-group">
+            <label for="qualyCopy">Has a copy been provided/shown?</label>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="qualyCopy" id="qualyCopyYes" value="qualyCopyYes" checked="">
+                    Yes
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="qualyCopy" id="qualyCopyNo" value="qualyCopyNo">
+                    No
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $(".open_edit").click(function () {
+        $("#qualy1Content").toggle("slow");
+    });
+</script>

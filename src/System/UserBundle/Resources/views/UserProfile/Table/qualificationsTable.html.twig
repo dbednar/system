@@ -1,0 +1,27 @@
+<table class="table table-striped table-advance table-hover">
+    <thead>
+        <tr>
+            <th>Qualification</th>
+            <th>Copy?</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for qualification in qualifications %}
+
+            <tr>
+                <td>{{qualification.name}}</td>
+                <td>{% if qualification.copy == true%}
+                        Yes
+                    {% else %}
+                       No
+                    {% endif %}    
+                </td>
+                <td>
+                    <a data-toggle="modal" href="#editQualy" class="btn btn-primary btn-xs" data-id="{{qualification.id}}"><i class="fa fa-pencil"></i> Edit</a>
+                </td>    
+            </tr>
+        {% endfor %}
+
+    </tbody>
+</table>

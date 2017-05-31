@@ -1,0 +1,155 @@
+<div id="user_data">
+    <div class="col-lg-9">
+        <div class="panel">
+            <div class="panel-heading">
+                Personal Details
+                <span class="pull-right">
+                    {% if app.user.id == staff.idUser.id %}
+                        <a data-toggle="modal" href="#editUserModal" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i> Edit</a>
+                    {% endif %}
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row" id="userPersonalDetails">
+                   {% include "SystemUserBundle:UserProfile:Table/personalDetailsTable.html.twig" %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel">
+                    <div class="panel-heading">
+                        Emergency Details
+                        <span class="pull-right">
+                            {% if app.user.id == staff.idUser.id %}
+                                <a data-toggle="modal" href="#editEmergency" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i> Edit</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                   <div id="userEmergencyDetails">
+                    {% include "SystemUserBundle:UserProfile:Table/emergencyDetailsTable.html.twig" %}
+                   </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="panel">
+                        <div class="panel-heading">
+                        Qualifications
+                        {% if app.user.id == staff.idUser.id %}
+                        <span class="pull-right">
+                            <a data-toggle="modal" href="#addQualy" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Add New</a>
+                        </span>
+                        {% endif %}
+                    </div> 
+                    <div  id="userQualifications"> 
+                          {% include "SystemUserBundle:UserProfile:Table/qualificationsTable.html.twig" %}
+                    </div>    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Update User Modal Start -->       
+    <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserLabel" aria-hidden="true">  
+
+    </div>
+    <!-- End Update Modal User-->  
+
+    <!-- Start emergency details -->
+    <div class="modal fade" id="editEmergency" tabindex="-1" role="dialog" aria-labelledby="editEmergencyLabel" aria-hidden="true">
+
+    </div>
+    <!-- End emergency details --> 
+
+    <!-- Start edit qualifications -->
+    <div class="modal fade" id="editQualy" tabindex="-1" role="dialog" aria-labelledby="editQualyLabel" aria-hidden="true">
+        
+    </div>
+
+    <!-- End edit qualifications modal -->
+
+    <!-- Start add qualifications modal -->
+
+    <div class="modal fade" id="addQualy" tabindex="-1" role="dialog" aria-labelledby="addQualyLabel" aria-hidden="true" style="display: none;">
+        
+    </div>
+
+    <!-- End add qualifications modal -->
+<script>
+  $(document).ready(function(){
+        $('#editQualy').on('show.bs.modal', function (e) {
+        $('#editQualy').html('');
+         if (e.relatedTarget === undefined)return;
+         qualId = $(e.relatedTarget).attr("data-id") || undefined;
+        $.ajax({
+            url: Routing.generate('ale_user_edit_qualifications',{idQua: qualId}),
+            type: 'POST',
+            data: '',
+            success: function (data) {
+                $('#editQualy').html(data);
+            },
+            error: function (xhr, desc, err) {
+                $('#editQualy').modal('hide');
+                $('#errorModalDiallog').modal('show');
+            }
+            
+        });
+    });
+    });
+</script>    
+<script>
+    $(document).ready(function(){
+       
+        $('#editUserModal').on('show.bs.modal', function (e) {
+            $('#editUserModal').html('');
+        $.ajax({
+            url: Routing.generate('ale_edit_user'),
+            type: 'POST',
+            data: '',
+            success: function (data) {
+                $('#editUserModal').html(data);
+            },
+            error: function (xhr, desc, err) {
+                $('#editUserModal').html("<p>Error</p>");
+            }
+        });
+    });
+    });
+    
+</script>    
+<script>
+    $(document).ready(function(){
+    $('#editEmergency').on('show.bs.modal', function (e) {
+        $('#editEmergency').html('');
+        $.ajax({
+            url: Routing.generate('ale_user_edit_emergency'),
+            type: 'POST',
+            data: '',
+            success: function (data) {
+                $('#editEmergency').html(data);
+            },
+            error: function (xhr, desc, err) {
+                $('#editEmergency').html("<p>Error</p>");
+            }
+        });
+    });
+    });
+</script>    
+<script>
+  $( document ).ready(function() {
+    $('#addQualy').on('show.bs.modal',function(e){
+        $('#addQualy').html('');
+        $.ajax({
+            url: Routing.generate('ale_user_edit_qualifications'),
+            type: 'POST',
+            data: '',
+            success: function (data) {
+                $('#addQualy').html(data);
+            },
+            error: function (xhr, desc, err) {
+                $('#addQualy').html("<p>Error</p>");
+            }
+        });
+    });
+  });
+</script>    

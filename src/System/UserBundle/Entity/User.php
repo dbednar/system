@@ -37,7 +37,7 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        // your own logic
+        $this->roles = array();
     }
     
     function getId() {
@@ -71,6 +71,20 @@ class User extends BaseUser
     function setLastOnline($lastOnline) {
         $this->lastOnline = $lastOnline;
     }
-
+public function getRoles()
+    {
+        $roles = $this->roles;
+        foreach ($this->getGroups() as $group) {
+            $roles = array_merge($roles, $group->getRoles());
+        }
+        if(empty($roles)){
+        $roles[] = static::ROLE_DEFAULT;
+        
+        }
+        return array_unique($roles);
+    }
+     public function getRole() {
+        return $this->roles;
+    }
 
 }

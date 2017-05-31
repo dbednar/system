@@ -1,0 +1,59 @@
+{% form_theme form '::Twig/button.html.twig' %}
+<div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">Edit Emergency Details</h4>
+        </div>
+        {{ form_start(form) }}
+        <div class="modal-body">
+            <div class="form-group">
+                {{ form_label(form.emergencyName)  }}
+               <span class="error-danger">  {{ form_errors(form.emergencyName)  }} </span>
+                {{ form_widget(form.emergencyName)  }}             
+            </div>
+            <div class="form-group">
+                {{  form_label(form.emergencyContact)  }}
+               <span class="error-danger"> {{  form_errors(form.emergencyContact)  }}</span>
+                {{  form_widget(form.emergencyContact)  }} 
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+            {{form_widget(form.save,{'label': '<i class="fa fa-check"></i> Save Changes'})}}
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+    
+    
+<script>
+    $('form').on('submit',function(e){
+        e.preventDefault();
+        
+        $.ajax({
+                url: Routing.generate('ale_user_edit_emergency'),
+                type: 'POST',
+                data: $(this).serialize(),
+                beforeSend: function () {
+                    $('.save_emergency').button('loading');
+                },
+                complete: function () {
+                    $('.save_emergency').button('reset');
+                }, 
+                success: function (data) {
+                    if(data.emergencyView){
+                        $('#userEmergencyDetails').html(data.emergencyView);
+                        $('#editEmergency').modal('hide');
+                    }else{
+                        $('#editEmergency').html(data);    
+                    }
+                    
+                },
+                error: function (xhr, desc, err) {
+                    $('#editEmergency').modal('hide');
+                    $('#errorModalDiallog').modal('show');
+                }
+            });
+    });
+</script>

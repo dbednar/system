@@ -1,0 +1,68 @@
+<div class="col-lg-6">
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Title</th>
+                <td>{{staff.title}}</td>
+            </tr>
+            <tr>
+                <th>First Name</th>
+                <td>{{staff.firstName}}</td>
+            </tr>
+            <tr>
+                <th>Surname</th>
+                <td>{{staff.surname}}</td>
+            </tr>
+            <tr>
+                <th>Address Line 1</th>
+                <td>{{staff.address1}}</td>
+            </tr>
+            <tr>
+                <th>Address Line 2</th>
+                <td>{{staff.address2}}</td>
+            </tr>
+            <tr>
+                <th>Address Line 3</th>
+                <td>{{staff.address3}}</td>
+            </tr>
+            <tr>
+                <th>Postcode</th>
+                <td>{{staff.postcode}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="col-lg-6">
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Telephone (Land Line)</th>
+                <td>{{staff.landline}}</td>
+            </tr>
+            <tr>
+                <th>Telephone (Mobile)</th>
+                <td>{{staff.mobile}}</td>
+            </tr>
+            <tr>
+                <th>Email Address</th>
+                <td>{{staff.idUser.email}}</td>
+            </tr>
+            <tr>
+                <th>Date of Birth</th>
+                <td>{{staff.dob | date('d/m/y')}}</td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>{{staff.gender}}</td>
+            </tr>
+            <tr>
+                <th>Nationality</th>
+                <td>{{staff.nationality}}</td>
+            </tr>
+            <tr>
+                <th>National Insurance No</th>
+                <td>{{staff.nationalityInsuranceNo}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

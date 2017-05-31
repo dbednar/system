@@ -8,7 +8,5 @@ class StaffRepository extends EntityRepository{
    
      const ENTITY_NAME = "SystemUserBundle:Staff";
         
- 
-
     
 }

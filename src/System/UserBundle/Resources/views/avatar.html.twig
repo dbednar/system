@@ -1,0 +1,7 @@
+          {% if  app.user.avatar is not empty  %}
+                                    <img style="width:29px; height:auto;" alt="" src="/avatar/{{app.user.avatar}}" > 
+                                {% else %}    
+                                    <img style="width:29px; height:auto;" alt="" src="/avatar/avatar.jpg" > 
+                                {% endif %}    
+    <span class="username"></span>
+    <b class="caret"></b>

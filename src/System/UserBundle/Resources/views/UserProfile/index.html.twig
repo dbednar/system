@@ -1,0 +1,93 @@
+{% extends "::base.html.twig"  %}
+{% block title %} {% if staff.name is defined %}{{staff.name}}{% endif %}{% endblock %}
+{% block css %}
+    {{parent()}}
+
+     <link href = "/css/datapicker-ui.css" rel = "stylesheet">
+{% endblock %}    
+{% block start_jq %}
+    <script src="/js/jquery.js" type="text/javascript" ></script>
+    <script src="/js/jquery-ui.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="text/javascript" ></script>
+    <script src="/js/moments.js" type="text/javascript"></script>
+{% endblock %}
+{% block avatar %}
+    {% include "SystemUserBundle::avatar.html.twig" %}
+{% endblock %}  
+{% block content %}
+    <div class="row">
+
+        <div class="col-lg-3">
+            <!-- Profile Navigation Start -->
+            <aside class="profile-nav">
+                <section class="panel">
+                    <div class="user-heading round" id="profileNavigation">
+                        {% include "SystemUserBundle:UserProfile:BlockElements/profileNavigationUser.html.twig" %}
+                    </div>
+                    <ul class="nav nav-pills nav-stacked profile-nav" id="user_profile" data-id="{{id}}">
+                        <li class="active" data-name="_overview"><a class="dcjq-parent"><i class="fa fa-user"></i> Overview</a></li>
+                        <li data-name="_personalDetails"><a class="dcjq-parent"><i class="fa fa-address-card"></i> Basic Details</a></li>
+                        <li data-name="_pvgSssc"><a class="dcjq-parent"><i class="fa fa-id-badge"></i> PVG/SSSC</a></li>
+                        <li data-name="_contract_infomration"><a class="dcjq-parent"><i class="fa fa-money"></i> Contract Information</a></li>
+                        <li data-name="cal_year"><a class="dcjq-parent"><i class="fa fa-calendar"></i>  Annual/Sick Leave</a></li>
+                        <li data-name="_meetings"><a class="dcjq-parent"><i class="fa fa-users"></i> Meetings</a></li>
+                        <li data-name="_training"><a class="dcjq-parent"><i class="fa fa-pencil"></i> Training</a></li>
+                        <li data-name="_driving_infomration"><a class="dcjq-parent"><i class="fa fa-car"></i> Driving Information</a></li>           
+                        <li data-name="discipline"><a class="dcjq-parent"><i class="fa fa-gavel"></i> Discipline/Concerns/Grievance</a></li>
+                        <li data-name="history"><a class="dcjq-parent"><i class="fa fa-archive"></i> History</a></li>
+                    </ul>
+                </section>
+            </aside>
+        </div>
+        <div id="view">
+            
+           {{view|raw}}
+<div id="floatingCirclesG" class="display_none loading_position">
+	<div class="f_circleG" id="frotateG_01"></div>
+	<div class="f_circleG" id="frotateG_02"></div>
+	<div class="f_circleG" id="frotateG_03"></div>
+	<div class="f_circleG" id="frotateG_04"></div>
+	<div class="f_circleG" id="frotateG_05"></div>
+	<div class="f_circleG" id="frotateG_06"></div>
+	<div class="f_circleG" id="frotateG_07"></div>
+	<div class="f_circleG" id="frotateG_08"></div>
+</div>
+</div>  
+</div>
+
+
+{% endblock %}
+
+{% block javascript %}
+    {{parent()}}  
+<script>
+        var ul = $('#user_profile li');
+        var id = $('#user_profile').data('id');
+        ul.on("click", function () {
+            var that = $(this);
+            $('li').removeClass("active");
+            that.addClass("active");
+            var data = that.data('name');
+            $.ajax({
+                url: Routing.generate('user'+data, { id: id }),
+                type: 'POST',
+                data: '',
+                beforeSend: function () {
+                    //$('#view').html("<img src='/img/default.gif' id='loading-indicator' />");
+                    $('#floatingCirclesG').removeClass('display_none');
+                    $('#view').html('');
+                },
+                complete: function(){
+                    $('#floatingCirclesG').addClass('display_none');
+                },
+                success: function (data) {
+                    $('#view').html(data);
+                },
+                error: function (xhr, desc, err) {
+                    $('#view').html("<p>Error </p>");
+                }
+            });
+        });
+</script>  
+
+{% endblock %}    

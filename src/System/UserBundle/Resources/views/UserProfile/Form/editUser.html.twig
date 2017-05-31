@@ -1,0 +1,217 @@
+{% form_theme form '::Twig/button.html.twig' %}
+<div class="modal-dialog modal-lg" id="form">
+    <div class="modal-content">
+        {% if form is defined %}
+            {{ form_start(form) }}
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Edit User</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form_label(form.title) }}
+                         <span class="error-danger">   {{ form_errors(form.title)}}</span>
+                            {{ form_widget(form.title)}} 
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form_label(form.landline) }}
+                          <span class="error-danger">  {{ form_errors(form.landline)}}</span>
+                            {{ form_widget(form.landline)}} 
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form_label(form.firstName) }}
+                         <span class="error-danger">   {{ form_errors(form.firstName)}}</span>
+                            {{ form_widget(form.firstName)}} 
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form_label(form.mobile) }}
+                        <span class="error-danger">    {{ form_errors(form.mobile)}}</span>
+                            {{ form_widget(form.mobile)}} 
+                        </div>
+                    </div>
+                </div>                    
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form_label(form.surname) }}
+                        <span class="error-danger">    {{ form_errors(form.surname)}}</span>
+                            {{ form_widget(form.surname)}} 
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form_label(form.email) }}
+                        <span class="error-danger">    {{ form_errors(form.email)}}</span>
+                            {{ form_widget(form.email)}} 
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form_label(form.address1) }}
+                        <span class="error-danger">    {{ form_errors(form.address1)}}</span>
+                            {{ form_widget(form.address1)}} 
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-6">     
+                        <div class="form-group">
+                            {{ form_label(form.dob) }}
+                        <span class="error-danger">    {{ form_errors(form.dob)}}</span>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <div class="input-append date dpYears datepicker">
+                                        {{ form_widget(form.dob)}}
+                                       {# <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>#}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form_label(form.address2) }}
+                        <span class="error-danger">    {{ form_errors(form.address2)}}</span>
+                            {{ form_widget(form.address2)}} 
+                        </div>
+                    </div>
+                        <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form_label(form.gender) }}
+                        <span class="error-danger">    {{ form_errors(form.gender)}}</span>
+                            {{ form_widget(form.gender)}} 
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form_label(form.address3) }}
+                        <span class="error-danger">    {{ form_errors(form.address3)}}</span>
+                            {{ form_widget(form.address3)}} 
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form_label(form.nationality) }}
+                        <span class="error-danger">    {{ form_errors(form.nationality)}}</span>
+                            {{ form_widget(form.nationality)}} 
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form_label(form.postcode) }}
+                        <span class="error-danger">    {{ form_errors(form.postcode)}}</span>
+                            {{ form_widget(form.postcode)}} 
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form_label(form.nationalityInsuranceNo) }}
+                        <span class="error-danger">    {{ form_errors(form.nationalityInsuranceNo)}}</span>
+                            {{ form_widget(form.nationalityInsuranceNo)}} 
+
+                        </div>
+                    </div>
+                </div>
+                        
+                <div class="row">                    
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    {{ form_label(form.avatar) }}
+                                <span class="error-danger">    {{ form_errors(form.avatar)}}</span>
+                                    {{ form_widget(form.avatar)}} 
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="col-sm-6">
+                    </div>                 
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                {{form_widget(form.save,{'label': '<i class="fa fa-check"></i> Save Changes'})}}
+             
+            </div>
+            {{ form_end(form) }}       
+    {% endif %}
+</div>
+</div> 
+
+<script>
+$('form').on('submit', function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: Routing.generate('ale_edit_user'),
+            type: 'POST',
+            data: new FormData(this),
+            contentType: false,
+            processData: false,
+            beforeSend: function () {
+                $('.edit_user').button('loading');
+            },
+            complete: function () {
+                $('.edit_user').button('reset');
+            }, 
+            success: function (data) {
+                if (data.personalDetails && data.profileNavigation && data.avatar && data.user ) {
+                   
+                   $('#profileNavigation').html(data.profileNavigation);
+                   $('#blockAvatar').html(data.avatar);
+                   $('head title', window.parent.document).text(data.user+' | A Life Explored');
+                   $('#userPersonalDetails').html(data.personalDetails);
+                   $('#editUserModal').modal('hide');
+                   
+                } else {
+                    $('#editUserModal').html(data);   
+                }
+            },
+            error: function (xhr, desc, err) {
+                 $('#editUserModal').modal('hide');
+                $('#errorModalDiallog').modal('show');
+            }
+        });
+    });
+
+</script> 
+<script>
+
+  $(document).ready(function(){
+
+  $( function() {
+    $( "#edit_user_dob" ).datepicker({
+        buttonImage: '/img/calendars.png',
+        buttonImageOnly: true,
+        changeMonth: true,
+        changeYear: true,
+        showOn: 'both',
+        dateFormat: "dd-mm-yy",
+        yearRange: "-97:+0",
+        maxDate: '0'
+    });
+    
+  } );
+  });
+</script>

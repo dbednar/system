@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
      * @ORM\Table(name="staff")
      */
 
-class Staff {
+class Staff  {
     
      /**
      * @ORM\Column(type="integer")

@@ -1,7 +1,14 @@
+system_maps:
+    resource: "@SystemMapsBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 system_api:
     resource: "@SystemApiBundle/Controller"
-    prefix:   /api
+    prefix:   /
     type: rest
+    defaults:
+        _format: json
 
 
 system_user:
@@ -31,3 +38,6 @@ fos_user_change_password:
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"    
 
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc

@@ -4,6 +4,7 @@ imports:
     - { resource: services.yml }
     - { resource: "@SystemUserBundle/Resources/config/services.xml" }
     - { resource: "@SystemApiBundle/Resources/config/services.xml" }
+    - { resource: "@SystemMapsBundle/Resources/config/services.xml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -20,7 +21,7 @@ framework:
     form: ~
     csrf_protection: ~
     validation: { enable_annotations: true }
-    #serializer: { enable_annotations: true }
+    serializer: { enable_annotations: true }
     templating:
         engines: ['twig']
     default_locale: '%locale%'
@@ -81,9 +82,55 @@ fos_user:
         form:
             type: System\UserBundle\Form\Type\RegisterUserType    
 fos_rest:
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener: true
     view:
+        view_response_listener: 'force'
         formats:
-            xml: true
+            html: false
+            jsonp: false
             json: true
+            xml: true
+            rss: false
+        mime_types:
+            json: ['application/json', 'application/x-json']
+            jpg: 'image/jpeg'
+            png: 'image/png'
+        jsonp_handler: ~
     routing_loader:
-        default_format: json            
+        default_format:  json
+        include_format:  true
+    format_listener:
+        rules:
+            - { path: ^/, priorities: [ json ], fallback_format: json, prefer_extension: true }
+    exception:
+        enabled: true
+nelmio_api_doc:
+
+
+   
+nelmio_cors:
+        defaults:
+            allow_credentials: false
+            allow_origin: []
+            allow_headers: []
+            allow_methods: []
+            expose_headers: []
+            max_age: 0
+            hosts: []
+            origin_regex: false
+            forced_allow_origin_value: ~
+        paths:
+            '^/api/':
+                allow_origin: ['*']
+                allow_headers: ['X-Custom-Auth']
+                allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
+                max_age: 3600
+            '^/':
+                origin_regex: true
+                allow_origin: ['^http://localhost:[0-9]+']
+                allow_headers: ['X-Custom-Auth']
+                allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
+                max_age: 3600
+                hosts: ['^api\.']       

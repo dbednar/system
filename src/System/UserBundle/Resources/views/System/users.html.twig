@@ -1,0 +1,159 @@
+{% extends "::base.html.twig"  %}
+{% block title %} Users {% endblock %}
+{% block  css %}
+
+    {{parent()}}
+    <link href="/css/demo_table.css" type="text/css" rel="stylesheet" />
+    <link href="/css/DT_bootstrap.css" type="text/css" rel="stylesheet" />
+{% endblock %}    
+{% block start_jq %}
+    {{ parent() }}  
+
+{% endblock %}    
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    User List
+                    <span class="pull-right">
+                        <a data-toggle="modal" href="#addUser" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Add New User</a>
+                    </span>
+                </header>
+                <div class="panel-body">
+                    {% include "SystemUserBundle:System:Table/sytemUserList.html.twig" %}
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- Start Add User Modal  -->              
+    <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="newUserModalLabel" aria-hidden="true">
+       
+    </div>
+    <!-- End Add User Modal  --> 
+    <!-- Start Edit User Modal  -->
+    <div class="modal fade" data-toggle="modal" id="editUser" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
+
+    </div>
+    <!--End Add User Modal  -->
+
+    <!-- Start modal reset password -->
+    <div class="modal fade in" id="resetPassword" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Reset Password for <span id="reset_password_fulname"></span></h4>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Are you sure you want to reset this user's password?</strong></p>
+                    <a data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Reset password" id="reset_password" class="btn btn-success"><i class="fa fa-check"></i> Yes, reset password</a>
+                    <a data-dismiss="modal" href="#" class="btn btn-danger"><i class="fa fa-close"></i> No</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End modal reset password -->
+
+
+<!-- Start modal reset password -->
+    <div class="modal fade in" id="confirmationMessage" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Reset Password</h4>
+                </div>
+                <div class="modal-body">
+                    <p><strong>An email has been sent to this user with a link to reset their password</strong></p>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End modal reset password -->
+
+{% endblock %}   
+
+{% block javascript %}
+    {{parent()}}
+
+    <script>
+        $('#addUser').on('show.bs.modal', function (e) {
+            $.ajax({
+                url: '{{path('user_register')}}',
+                method: 'POST',
+                data: '',
+                beforeSend: function () {
+                    $('#addUser').html("<img src='/img/ajax-loader.gif' id='loading-indicator' />");
+                },
+                success: function (data) {
+                    $('#addUser').html(data);
+                },
+                error: function (xhr, desc, err) {
+                    $('#addUser').modal('hide');
+                    $('#errorModalDiallog').modal('show');
+                }
+            });
+
+        });
+        $('#editUser').on('show.bs.modal', function (e) {
+            $('#editUser').html('');
+            if (e.relatedTarget == undefined)
+                return;
+            idUser = $(e.relatedTarget).attr('data-id') || undefined;
+
+            $.ajax({
+                url: Routing.generate('system_editUser', {id: idUser}),
+                method: 'POST',
+                data: '',
+                beforeSend: function () {
+                    $('#editUser').html("<img src='/img/ajax-loader.gif' id='loading-indicator' />");
+                },
+                success: function (data) {
+                    $('#editUser').html(data);
+                },
+                error: function (xhr, desc, err) {
+                    $('#editUser').modal('hide');
+                    $('#errorModalDiallog').modal('show');
+                }
+            });
+        });
+    </script>
+    <script>
+
+    (function(){
+    $(document).ready(function(){
+       $('#resetPassword').on('show.bs.modal', function (e) {
+        if (e.relatedTarget === undefined)return;
+        var idUser = $(e.relatedTarget).attr("data-id") || undefined;
+        var username = $(e.relatedTarget).attr("data-username") || undefined;
+        var email = $(e.relatedTarget).attr("data-email")|| undefined;
+        $('#reset_password_fulname').html(username);
+        
+        $('#reset_password').unbind();
+        $('#reset_password').bind('click',function(){
+            $.ajax({
+                type: "post",
+                url: "{{path('fos_user_resetting_send_email')}}",
+                data: 'username=' + email,
+                beforeSend: function () {
+                    $('#reset_password').button('loading');
+                },
+                complete: function () {
+                    $('#reset_password').button('reset');
+                    $('#resetPassword').modal('hide');
+                    $("#confirmationMessage").modal('show');
+                },
+                        
+            });
+            });
+        }); 
+     });
+    })();
+</script>    
+    
+
+{% endblock %}    

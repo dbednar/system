@@ -22,51 +22,5 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class ApiStaffController extends FOSRestController implements ClassResourceInterface{
    
-     /**
-     * Gets  all Staff
-     *
-     * @return mixed
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     *
-     * @ApiDoc(
-     * description="This function return all staff",
-     *     
-     *     statusCodes={
-     *         200 = "Returned when successful",
-     *         404 = "Return when not found"
-     *     }
-     * )
-     */
     
-    public function getStaffAction(){
-        $staff = $this->getDoctrine()->getManager()->getRepository("SystemUserBundle:Staff")->findAll();
-         if ($staff === null) {
-            return new View(null, Response::HTTP_NOT_FOUND);
-        }       
-      
-        return $staff;     
-        
-    }
-    
-    /**
-     * Gets an individual Staff
-     *
-     * @param int $id
-     * @return mixed
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     *
-     * @ApiDoc(
-     *     output="System\UserBundle\Entity\Staff",
-     *     statusCodes={
-     *         200 = "Returned when successful",
-     *         404 = "Return when not found"
-     *     }
-     * )
-     */
-    
-    public function putStaffAction(){
-        
-    }
 }

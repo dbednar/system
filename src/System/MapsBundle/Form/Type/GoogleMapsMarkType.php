@@ -7,8 +7,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+
+use System\MapsBundle\Entity\GoogleMapsMark;
+
 
 class GoogleMapsMarkType extends AbstractType{
    
@@ -19,8 +23,12 @@ class GoogleMapsMarkType extends AbstractType{
             ->add('title',TextareaType::class,array(
                 
             ))
-            ->add('colorPoint', HiddenType::class, array(
-                
+            ->add('colorPoint', ChoiceType::class, array(
+                'choices'  => array(
+                    'Yes' => true,
+                    'No' => false,
+                ),
+                'placeholder'=> "Wybierz kolor"
             ))
             ->add('id', HiddenType::class, array(
                 
@@ -32,7 +40,7 @@ class GoogleMapsMarkType extends AbstractType{
     public function configureOptions(OptionsResolver $resolver)
 {
     $resolver->setDefaults(array(
-        'data_class' => "System\MapsBundle\Entity\GoogleMapsMark",
+        'data_class' => GoogleMapsMark::class,
     ));
 }
     

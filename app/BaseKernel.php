@@ -19,10 +19,11 @@ class BaseKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new FOS\RestBundle\FOSRestBundle(),
-            new JMS\SerializerBundle\JMSSerializerBundle(),
             new System\ApiBundle\SystemApiBundle(),
-            new Nelmio\CorsBundle\NelmioCorsBundle(),
-            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+          new Nelmio\CorsBundle\NelmioCorsBundle(),
+           new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+            
+            new JMS\SerializerBundle\JMSSerializerBundle(),
             new System\MapsBundle\SystemMapsBundle(),
         ];
 

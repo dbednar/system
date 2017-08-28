@@ -18,6 +18,12 @@ class GoogleMapsService {
     public function findMarks($idMarks){
         return $this->em->getRepository(self::ENTITY_NAME)->find($idMarks);
     }
+
+    public function findMarkWithData($latitude,$longitude){
+        
+        return $this->em->getRepository(self::ENTITY_NAME)->findGoogleMapsMark($latitude,$longitude);
+    }
+    
     public function getAllMarker(){
        
         $results=$this->em->getRepository(self::ENTITY_NAME)->findAll();
@@ -40,8 +46,9 @@ class GoogleMapsService {
         }
         return $googleMapsMarker->getId();
     }
-    
+
     public function setMarker($data){
+
         $googleMapsMarker = new GoogleMapsMark(); 
         $googleMapsMarker->setTitle($data['title']);
         $googleMapsMarker->setLatitude($data['latitude']);

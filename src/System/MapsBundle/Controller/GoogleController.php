@@ -11,29 +11,36 @@ use System\MapsBundle\Form\Type\GoogleMapsMarkType;
 class GoogleController extends Controller{
 	
     /**
-     * @Route("/", name="google_maps")
+     * @Route("/maps-mark", name="google_maps")
      * @Template
      */
     
     public function indexAction(){
+      
         return array(
             'marks'=>  $this->get('google_maps.mark')->getAllMarker(),
         );
     }
     /**
-     * @Route("/add-geolocation/{idMarks}",name="add_geolocation",
-     * options={"expose"=true},defaults={"idMarks":0},requirements={"idMarks": "\d+"})
+     * @Route("/add-geolocation/{latitude}/{longitude}",name="add_geolocation",
+     * options={"expose"=true},defaults={"longitude":0,"latitude":0},requirements={"idMarks": "\d+"})
      * 
      */
-    public function saveGeolocationAction(Request $request,$idMarks){
+    public function saveGeolocationAction(Request $request,$latitude,$longitude){
        
-            $service = $this->get('google_maps.mark');
+        $service = $this->get('google_maps.mark');
     
-        if($idMarks == 0){
+        if($latitude == 0 && $longitude ==0 ){
             $idMarks = $service->saveMarker($request->request->all());
+            $marks = $service->findMarks($idMarks);
+           
+        }else{
+            $marks = $service->findMarkWithData($latitude,$longitude);
+            $marks = ($marks[0])?$marks[0] : '';
+      
         }
-
-        $form =$this->createForm(GoogleMapsMarkType::class,$service->findMarks($idMarks));
+        
+        $form =$this->createForm(GoogleMapsMarkType::class,$marks);
         $form->handleRequest($request);
         
         if($form->isSubmitted() && $form->isValid()){

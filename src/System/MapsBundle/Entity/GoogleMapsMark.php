@@ -5,7 +5,7 @@ namespace System\MapsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="System\MapsBundle\Repository\GoogleMapsMarkRepository")
  * @ORM\Table(name="google_maps_mark")
  */
 
@@ -26,14 +26,14 @@ class GoogleMapsMark {
     public $title;
     
     /**
-     * @ORM\Column(name="latitude",type="float")
+     * @ORM\Column(name="latitude",type="float", scale=2)
      * @Assert\NotBlank()
      */
     
     public $latitude;
     
     /**
-     * @ORM\Column(name="longitude",type="float")
+     * @ORM\Column(name="longitude",type="float", scale=2)
      * @Assert\NotBlank()
      */
     
